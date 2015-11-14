@@ -37,20 +37,21 @@ from collections import OrderedDict
 from kkconst import (
     BaseConst,
     ConstIntField,
+    ConstLongField,
     get_console_logger,
 )
-
-
-class StatusCodeField(ConstIntField):
-    def __init__(self, status_code, message=u"", description=u""):
-        ConstIntField.__init__(status_code, verbose_name=message, description=description)
-        self.message = message
 
 
 class BaseStatusCode(BaseConst):
     @classmethod
     def get_message(cls, status_code, default=None):
         return cls.get_verbose_name(status_code, default=default)
+
+
+class StatusCodeField(ConstIntField):
+    def __init__(self, status_code, message=u"", description=u""):
+        ConstIntField.__init__(status_code, verbose_name=message, description=description)
+        self.message = message
 
 
 class ServiceStatusCode(BaseStatusCode):
@@ -62,6 +63,7 @@ if __name__ == "__main__":
 
     error_code = ServiceStatusCode.SERVICE_UNAVAILABLE
     assert isinstance(error_code, ConstIntField)
+    # assert isinstance(error_code, ConstLongField)  # assert error
     assert isinstance(error_code, int)
 
     logger.info(error_code.TYPE)

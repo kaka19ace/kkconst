@@ -16,7 +16,7 @@ from six import (
 class _RawConstField(object):
     _SUPPORT_TYPES = (int, float, str, bytes)
     if PY2:
-        _SUPPORT_TYPES += (unicode,)  # awesome
+        _SUPPORT_TYPES += (long, unicode,)  # awesome
 
     _REGISTERED_FIELD_DICT = {}  # type: const_cls
 
@@ -31,6 +31,10 @@ class _RawConstField(object):
             def __new__(const_cls, value, verbose_name=u"", **kwargs):
                 if type(value) not in self._SUPPORT_TYPES:
                     raise TypeError("const field only support types={0}".format(self._SUPPORT_TYPES))
+
+                if PY2:
+                    if base_type == long and isinstance(value, int):
+                        value = long(value)  # upgrade to long
 
                 if not isinstance(value, base_type):
                     raise TypeError(
