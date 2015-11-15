@@ -1,0 +1,16 @@
+Metadata-Version: 1.1
+Name: kkconst
+Version: 1.0.0dev
+Summary: Define const field and const class, customize it as You Like (Python)
+Home-page: http://www.kaka-ace.com
+Author: ZHONG KAIXIANG
+Author-email: xiang.ace@gmail.com
+License: http://opensource.org/licenses/MIT
+Description: Define const field and const class, customize it as You Like (Python)
+Keywords: kkconst
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: Implementation :: CPython
