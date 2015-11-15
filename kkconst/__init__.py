@@ -19,6 +19,8 @@ from .kkconst import (
     ConstDatetimeField,
 )
 
+__version__ = "1.0.22"
+
 __console_logger = None
 
 
