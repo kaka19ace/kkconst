@@ -6,38 +6,13 @@
 # @brief
 #
 
-
-try:
-    from six import with_metaclass
-except:
-    def with_metaclass(meta, *bases):
-        """Create a base class with a metaclass. copy from six """
-        class metaclass(meta):
-            def __new__(cls, name, this_bases, d):
-                return meta(name, bases, d)
-        return type.__new__(metaclass, 'temporary_class', (), {})
-
-import time
 import datetime
 
 from . import util
-from .util import PY2
-
-
-try:
-    from cached_property import cached_property
-except:
-    class cached_property(object):
-        """ https://github.com/bottlepy/bottle/blob/master/bottle.py """
-        def __init__(self, func):
-            self.__doc__ = getattr(func, '__doc__')
-            self.func = func
-
-        def __get__(self, obj, cls):
-            if obj is None:
-                return self
-            value = obj.__dict__[self.func.__name__] = self.func(obj)
-            return value
+from .util import (
+    PY2,
+    with_metaclass
+)
 
 
 class _RawConstField(object):
@@ -52,16 +27,22 @@ class _RawConstField(object):
         if const_field:
             return const_field
 
+        const_field_cls = self._create_const_field_cls(base_type)
+        self._REGISTERED_FIELD_DICT[base_type] = const_field_cls
+        return const_field_cls
+
+    @classmethod
+    def _create_const_field_cls(cls, base_type):
         class ConstField(base_type):
             TYPE = base_type
 
             def __new__(const_cls, value=None, verbose_name=u"", **kwargs):
                 real_value = util.get_real_value(base_type, value)
 
-                if type(real_value) not in self.SUPPORT_TYPES:
+                if type(real_value) not in cls.SUPPORT_TYPES:
                     raise TypeError(
                         "const field only support types={0} value={1} real_value={2}".format(
-                            self._SUPPORT_TYPES, value, real_value
+                            cls._SUPPORT_TYPES, value, real_value
                         )
                     )
 
@@ -72,24 +53,27 @@ class _RawConstField(object):
                         )
                     )
 
-                if base_type is datetime.datetime:
-                    kwargs["year"] = real_value.year
-                    kwargs["month"] = real_value.month
-                    kwargs["day"] = real_value.day
-                    kwargs["hour"] = real_value.hour
-                    kwargs["minute"] = real_value.minute
-                    kwargs["second"] = real_value.second
-                    kwargs["microsecond"] = real_value.microsecond
-                    kwargs["tzinfo"] = real_value.tzinfo
-                    obj = datetime.datetime.__new__(const_cls, **kwargs)
-                else:
-                    obj = base_type.__new__(const_cls, real_value)
-                    obj.__dict__.update(**kwargs)
+                obj = _RawConstField._new_obj(base_type, real_value, const_cls, **kwargs)
                 obj.verbose_name = verbose_name
                 return obj
-
-        self._REGISTERED_FIELD_DICT[base_type] = ConstField
         return ConstField
+
+    @staticmethod
+    def _new_obj(base_type, value, const_cls, **kwargs):
+        if base_type is datetime.datetime:
+            kwargs["year"] = value.year
+            kwargs["month"] = value.month
+            kwargs["day"] = value.day
+            kwargs["hour"] = value.hour
+            kwargs["minute"] = value.minute
+            kwargs["second"] = value.second
+            kwargs["microsecond"] = value.microsecond
+            kwargs["tzinfo"] = value.tzinfo
+            obj = datetime.datetime.__new__(const_cls, **kwargs)
+        else:
+            obj = base_type.__new__(const_cls, value)
+            obj.__dict__.update(**kwargs)
+        return obj
 
     @property
     def registered_field_types(self):
@@ -133,10 +117,6 @@ else:
 # datetime
 class ConstDatetimeField(_ConstField(datetime.datetime), _Mixin):
     FORMATS = util.DATETIME_FORMATS
-
-    @cached_property
-    def timestamp(self):
-        return time.mktime(self.timetuple())
 
     def to_dict(self):
         return dict(
