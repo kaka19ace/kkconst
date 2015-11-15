@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # @file     const_float.py
-# @author   kaka_ace <xiang.ace@gmail.com>
+# @author   ZHONG KAIXIANG  <xiang.ace@gmail.com>
 # @date     Nov 15 2015
 # @brief     
 #

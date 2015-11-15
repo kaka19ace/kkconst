@@ -37,9 +37,9 @@ from collections import OrderedDict
 from kkconst import (
     BaseConst,
     ConstIntField,
-    ConstLongField,
     get_console_logger,
 )
+from kkconst.util import PY2
 
 
 class BaseStatusCode(BaseConst):
@@ -65,6 +65,9 @@ if __name__ == "__main__":
     assert isinstance(error_code, ConstIntField)
     # assert isinstance(error_code, ConstLongField)  # assert error
     assert isinstance(error_code, int)
+    if PY2:
+        # assert isinstance(error_code, long)  # assert error, does not support long
+        pass
 
     logger.info(error_code.TYPE)
 

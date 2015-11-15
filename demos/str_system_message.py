@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# @author   kaka_ace <xiang.ace@gmail.com>
+# @author   ZHONG KAIXIANG  <xiang.ace@gmail.com>
 # @date     Nov 15 2015
 # @brief     
 #
 
-from six import PY2
 
 from kkconst import (
     BaseConst,
@@ -14,6 +13,7 @@ from kkconst import (
     ConstUnicodeField,
     get_console_logger,
 )
+from kkconst.util import PY2
 
 
 class SystemMessage(BaseConst):

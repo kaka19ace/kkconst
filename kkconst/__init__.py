@@ -12,11 +12,11 @@ import logging
 from .kkconst import (
     BaseConst,
     ConstIntField,
-    ConstLongField,
     ConstFloatField,
     ConstStringField,
     ConstBytesField,
     ConstUnicodeField,
+    ConstDatetimeField,
 )
 
 __console_logger = None
