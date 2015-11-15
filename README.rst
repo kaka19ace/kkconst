@@ -19,6 +19,7 @@ Example
 =======
 
 **int: status_code**
+
 .. code-block:: python
 
     from __future__ import print_function
@@ -60,6 +61,7 @@ Example
     #
 
 **float: math constant**
+
 .. code-block:: python
 
     from __future__ import print_function
@@ -87,6 +89,7 @@ Example
     print(MathConst.get_verbose_name(0.618))  # None
 
 **str: system message**
+
 .. code-block:: python
 
     from kkconst import BaseConst, ConstStringField
@@ -96,6 +99,7 @@ Example
         PERMISSION_DENY = ConstStringField(u"permission deny", verbose_name=u"your have no permission")
 
 **datetime: released datetime**
+
 .. code-block:: python
 
     class ReleasedDatetime(BaseConst):
