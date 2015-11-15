@@ -3,7 +3,7 @@
 #
 # @author   ZHONG KAIXIANG <xiang.ace@gmail.com>
 # @date     Nov 15 2015
-# @brief     
+# @brief
 #
 
 import sys

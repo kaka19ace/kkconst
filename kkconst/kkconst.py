@@ -21,6 +21,8 @@ import time
 import datetime
 
 from . import util
+from .util import PY2
+
 
 try:
     from cached_property import cached_property
@@ -40,7 +42,7 @@ except:
 
 class _RawConstField(object):
     SUPPORT_TYPES = (int, float, str, bytes, datetime.datetime,)
-    if util.PY2:
+    if PY2:
         SUPPORT_TYPES += (unicode,)  # awesome
 
     _REGISTERED_FIELD_DICT = {}  # type: const_cls
@@ -116,7 +118,7 @@ class ConstFloatField(_ConstField(float), _Mixin):
 class ConstStringField(_ConstField(str), _Mixin):
     pass
 
-if util.PY2:
+if PY2:
     ConstBytesField = ConstStringField
 
     class ConstUnicodeField(_ConstField(unicode), _Mixin):

@@ -15,10 +15,14 @@ from kkconst import (
 )
 from kkconst.util import PY2
 
+# PY3: ConstUnicodeField is ConstStringField
+
 
 class SystemMessage(BaseConst):
     SERVICE_UNAVAILABLE = ConstUnicodeField(u"service unavailable", verbose_name=u"Service is sleeping/服务睡眠中")
+    # SERVICE_UNAVAILABLE = ConstStringField(u"service unavailable", verbose_name=u"Service is sleeping/服务睡眠中")
     PERMISSION_DENY = ConstUnicodeField(u"permission deny", verbose_name=u"your have no permission/你的权限被拒绝")
+    # PERMISSION_DENY = ConstStringField(u"permission deny", verbose_name=u"your have no permission/你的权限被拒绝")
 
 
 if __name__ == "__main__":
