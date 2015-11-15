@@ -1,12 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+
 from setuptools import setup
 
-version = '1.0.2'
+version = '1.0.3'
+
+
+def read(fname):
+    with open(fname) as fp:
+        content = fp.read()
+    return content
+
 
 setup(
     name='kkconst',
     version=version,
     description="Define const field and const class, customize it as You Like (Python)",
-    long_description="Define const field and const class, customize it as You Like (Python)",
+    long_description=read('README.rst'),
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 2.7",
