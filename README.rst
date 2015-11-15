@@ -1,0 +1,69 @@
+********************************************
+kkconst
+********************************************
+
+** kkconst ** is a constant-tools library.
+
+.. code-block: python
+    # Python3
+    # eg: Usage at Restful response with error_code and error_message
+    import json
+    from collections import OrderedDict
+
+    from kkconst import (
+        BaseConst,
+        ConstIntField,
+    )
+
+    class BaseStatusCode(BaseConst):
+        pass
+
+    class ServiceStatusCode(BaseStatusCode):
+        SERVICE_UNAVAILABLE = ConstIntField(10001, u"service unavailable", description=u"server is sleeping/服务打盹了")
+
+    error_code = ServiceStatusCode.SERVICE_UNAVAILABLE
+    assert isinstance(error_code, ConstIntField)  # should be True
+    assert isinstance(error_code, int)  # # should be True
+    print(error_code.TYPE)  # <class 'int'>
+
+    print(error_code.verbose_name)  # "service unavailable"
+    print(error_code.description)  # "server is sleeping/服务打盹了"
+
+    print(ServiceStatusCode.get_verbose_name(error_code))  # "service unavailable"
+
+    print(type(error_code))  # <class ConstIntField>
+    print(type(error_code.TYPE(error_code)))  # <class 'int'>
+    print(ServiceStatusCode.get_verbose_name(error_code.TYPE(error_code)))  # "service unavailable"
+
+    # for restful response
+    response_data = OrderedDict()
+    response_data["status_code"] = error_code
+    response_data["message"] = error_code.message
+    response_data["description"] = error_code.description
+    response_data["extra_message"] = "may you live in an interesting time"
+    print(json.dumps(response_data, indent=2))
+    # {
+    #    "status_code": 10001,
+    #    "message": "service unavailable",
+    #    "description": "server is sleeping/服务打盹了",
+    #    "extra_message": "may you live in an interesting time"
+    # }
+    #
+    # def views(request):
+    #     ...
+    #     return HttpResponse(200, response_data, "application/json")
+    #
+
+Get It Now
+==========
+.. code:: bash
+    $ pip install kkconst
+
+Project Links
+==========
+- GitHub: https://github.com/kaka19ace/kkconst
+- PyPi: https://pypi.python.org/pypi/kkconst
+
+License
+=======
+MIT licensed. See the bundled `LICENSE <https://github.com/kaka19ace/kkconst/blob/master/LICENSE>`_ file for more details.

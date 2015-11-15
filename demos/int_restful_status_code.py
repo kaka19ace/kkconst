@@ -76,7 +76,6 @@ if __name__ == "__main__":
     logger.info(error_code.description)
 
     logger.info(ServiceStatusCode.get_message(error_code))
-    logger.info(ServiceStatusCode.get_message(error_code))
 
     logger.info(type(error_code))
     logger.info(type(error_code.TYPE(error_code)))
