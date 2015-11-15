@@ -2,9 +2,9 @@
 kkconst
 ********************************************
 
-** kkconst ** is a constant-tools library.
+**kkconst** is a constant-tools library.
 
-.. code-block: python
+.. code-block:: python
     # Python3
     # eg: Usage at Restful response with error_code and error_message
     import json
