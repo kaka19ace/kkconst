@@ -5,6 +5,7 @@ kkconst
 **kkconst** is a constant-tools library.
 
 .. code-block:: python
+
     # Python3
     # eg: Usage at Restful response with error_code and error_message
     import json
@@ -56,7 +57,8 @@ kkconst
 
 Get It Now
 ==========
-.. code:: bash
+::
+
     $ pip install kkconst
 
 Project Links
@@ -67,3 +69,8 @@ Project Links
 License
 =======
 MIT licensed. See the bundled `LICENSE <https://github.com/kaka19ace/kkconst/blob/master/LICENSE>`_ file for more details.
+
+Requirements
+============
+
+- Python >= 2.7 or >= 3.4
