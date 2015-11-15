@@ -13,6 +13,7 @@ Project Links
 Support Types:
 ==============
 int, str, bytes, datetime
+
 In PY2: with unicode
 
 Example
