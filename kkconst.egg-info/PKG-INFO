@@ -10,9 +10,10 @@ Description: ********************************************
         kkconst
         ********************************************
         
-        ** kkconst ** is a constant-tools library.
+        **kkconst** is a constant-tools library.
         
-        .. code-block: python
+        .. code-block:: python
+        
             # Python3
             # eg: Usage at Restful response with error_code and error_message
             import json
@@ -64,7 +65,8 @@ Description: ********************************************
         
         Get It Now
         ==========
-        .. code:: bash
+        ::
+        
             $ pip install kkconst
         
         Project Links
@@ -75,6 +77,11 @@ Description: ********************************************
         License
         =======
         MIT licensed. See the bundled `LICENSE <https://github.com/kaka19ace/kkconst/blob/master/LICENSE>`_ file for more details.
+        
+        Requirements
+        ============
+        
+        - Python >= 2.7 or >= 3.4
 Keywords: kkconst
 Platform: UNKNOWN
 Classifier: License :: OSI Approved :: MIT License
