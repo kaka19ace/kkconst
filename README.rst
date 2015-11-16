@@ -69,7 +69,6 @@ Example
     from kkconst import (
         BaseConst,
         ConstFloatField,
-        get_console_logger,
     )
 
     class MathConst(BaseConst):
