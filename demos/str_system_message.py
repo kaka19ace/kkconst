@@ -6,14 +6,15 @@
 # @brief     
 #
 
-
+import sys
 from kkconst import (
     BaseConst,
     ConstStringField,
     ConstUnicodeField,
     get_console_logger,
 )
-from kkconst.util import PY2
+
+PY2 = sys.version_info[0] == 2
 
 # PY3: ConstUnicodeField is ConstStringField
 

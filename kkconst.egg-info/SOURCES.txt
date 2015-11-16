@@ -2,8 +2,7 @@ README.rst
 setup.cfg
 setup.py
 kkconst/__init__.py
-kkconst/kkconst.py
-kkconst/util.py
+kkconst/const.py
 kkconst.egg-info/PKG-INFO
 kkconst.egg-info/SOURCES.txt
 kkconst.egg-info/dependency_links.txt

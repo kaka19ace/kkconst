@@ -76,8 +76,8 @@ Example
         PI = ConstFloatField(3.1415926, verbose_name=u"Pi")
         E = ConstFloatField(2.7182818284, verbose_name=u"mathematical constant")  # Euler's number"
         GOLDEN_RATIO = ConstFloatField(0.6180339887, verbose_name=u"Golden Ratio")
-        magic_num = MathConst.GOLDEN_RATIO
 
+    magic_num = MathConst.GOLDEN_RATIO
     assert isinstance(magic_num, ConstFloatField)
     assert isinstance(magic_num, float)
 

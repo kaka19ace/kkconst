@@ -6,13 +6,54 @@
 # @brief
 #
 
+import sys
 import datetime
 
-from . import util
-from .util import (
-    PY2,
-    with_metaclass
-)
+try:
+    from six import with_metaclass
+except:
+    def with_metaclass(meta, *bases):
+        """Create a base class with a metaclass. copy from six """
+        class metaclass(meta):
+            def __new__(cls, name, this_bases, d):
+                return meta(name, bases, d)
+        return type.__new__(metaclass, 'temporary_class', (), {})
+
+
+PY2 = sys.version_info[0] == 2
+STRING_TYPES = str if not PY2 else basestring
+_DATETIME_FORMATS = [
+        '%Y-%m-%d %H:%M:%S.%f',
+        '%Y-%m-%d %H:%M:%S',
+        '%Y-%m-%d',
+]
+
+
+def _format_datetime(value):
+    datetime_value = None
+    for fmt in _DATETIME_FORMATS:
+        try:
+            datetime_value = datetime.datetime.strptime(value, fmt)
+        except ValueError:
+            pass
+        if datetime_value:
+            break
+
+    if datetime_value:
+        return datetime_value
+    else:
+        raise ValueError("Could not format datetime value={0} formats={1}".format(value, DATETIME_FORMATS))
+
+
+def _get_real_value(base_type, value):
+    real_value = value
+    if PY2 and base_type is int and isinstance(value, long) and -sys.maxint <= value <= sys.maxint:
+        real_value = int(value)  # force to int
+
+    if base_type is datetime.datetime and isinstance(value, STRING_TYPES):
+        real_value = _format_datetime(real_value)
+
+    return real_value
 
 
 class _RawConstField(object):
@@ -37,7 +78,7 @@ class _RawConstField(object):
             TYPE = base_type
 
             def __new__(const_cls, value=None, verbose_name=u"", **kwargs):
-                real_value = util.get_real_value(base_type, value)
+                real_value = _get_real_value(base_type, value)
 
                 if type(real_value) not in cls.SUPPORT_TYPES:
                     raise TypeError(
@@ -61,12 +102,8 @@ class _RawConstField(object):
     @staticmethod
     def _new_obj(base_type, value, const_cls, **kwargs):
         if base_type is datetime.datetime:
-            kwargs["year"] = value.year
-            kwargs["month"] = value.month
-            kwargs["day"] = value.day
-            kwargs["hour"] = value.hour
-            kwargs["minute"] = value.minute
-            kwargs["second"] = value.second
+            kwargs["year"], kwargs["month"], kwargs["day"] = value.year, value.month, value.day
+            kwargs["hour"], kwargs["minute"], kwargs["second"] = value.hour, value.minute, value.second
             kwargs["microsecond"] = value.microsecond
             kwargs["tzinfo"] = value.tzinfo
             obj = datetime.datetime.__new__(const_cls, **kwargs)
@@ -116,7 +153,7 @@ else:
 
 # datetime
 class ConstDatetimeField(_ConstField(datetime.datetime), _Mixin):
-    FORMATS = util.DATETIME_FORMATS
+    FORMATS = _DATETIME_FORMATS
 
     def to_dict(self):
         return dict(

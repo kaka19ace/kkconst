@@ -31,6 +31,7 @@ def views(request):
 
 """
 
+import sys
 import json
 from collections import OrderedDict
 
@@ -39,7 +40,9 @@ from kkconst import (
     ConstIntField,
     get_console_logger,
 )
-from kkconst.util import PY2
+
+
+PY2 = sys.version_info[0] == 2
 
 
 class BaseStatusCode(BaseConst):
