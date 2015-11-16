@@ -19,7 +19,7 @@ from .const import (
     ConstDatetimeField,
 )
 
-__version__ = "1.0.24a"
+__version__ = "1.0.24"
 
 __console_logger = None
 

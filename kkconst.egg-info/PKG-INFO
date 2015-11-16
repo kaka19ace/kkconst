@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: kkconst
-Version: 1.0.24a
+Version: 1.0.24
 Summary: Define const field and const class, customize it as You Like (Python)
 Home-page: https://github.com/kaka19ace/kkconst/
 Author: ZHONG KAIXIANG
@@ -77,7 +77,6 @@ Description: ***********************
             from kkconst import (
                 BaseConst,
                 ConstFloatField,
-                get_console_logger,
             )
         
             class MathConst(BaseConst):
