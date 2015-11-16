@@ -9,7 +9,7 @@
 import sys
 import logging
 
-from .kkconst import (
+from .const import (
     BaseConst,
     ConstIntField,
     ConstFloatField,
@@ -19,7 +19,7 @@ from .kkconst import (
     ConstDatetimeField,
 )
 
-__version__ = "1.0.23"
+__version__ = "1.0.24a"
 
 __console_logger = None
 

@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: kkconst
-Version: 1.0.23
+Version: 1.0.24a
 Summary: Define const field and const class, customize it as You Like (Python)
 Home-page: https://github.com/kaka19ace/kkconst/
 Author: ZHONG KAIXIANG
@@ -84,8 +84,8 @@ Description: ***********************
                 PI = ConstFloatField(3.1415926, verbose_name=u"Pi")
                 E = ConstFloatField(2.7182818284, verbose_name=u"mathematical constant")  # Euler's number"
                 GOLDEN_RATIO = ConstFloatField(0.6180339887, verbose_name=u"Golden Ratio")
-                magic_num = MathConst.GOLDEN_RATIO
         
+            magic_num = MathConst.GOLDEN_RATIO
             assert isinstance(magic_num, ConstFloatField)
             assert isinstance(magic_num, float)
         
