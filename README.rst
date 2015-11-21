@@ -45,7 +45,7 @@ Example
     # for restful response
     response_data = OrderedDict()
     response_data["status_code"] = error_code
-    response_data["message"] = error_code.message
+    response_data["message"] = error_code.verbose_name
     response_data["description"] = error_code.description
     response_data["extra_message"] = "may you live in an interesting time"
     print(json.dumps(response_data, indent=2))
