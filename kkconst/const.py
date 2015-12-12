@@ -163,15 +163,60 @@ class ConstDatetimeField(_ConstField(datetime.datetime), _Mixin):
         )
 
 
+def _update_or_create_meta(meta=None):
+    if not meta:
+        class Meta(object):
+            pass
+        meta = Meta
+
+    _meta_attr_config = [  # attr_name, expected_type, default_value
+        ('allow_duplicated_value', bool, True),
+    ]
+
+    for attr_name, expected_type, default_value in _meta_attr_config:
+        attr_value = getattr(meta, attr_name, None)
+        if attr_value is not None:
+            if not isinstance(attr_value, expected_type):
+                raise TypeError(
+                    "Meta attribute {0} {1} not expected type: {2}".format(attr_name, attr_value, expected_type)
+                )
+        else:
+            setattr(meta, attr_name, default_value)
+
+    return meta
+
+
 class ConstMetaClass(type):
     def __new__(cls, name, bases, namespace):
+        meta = namespace.get("Meta")
+        if not meta:
+            for base_cls in bases:
+                meta = getattr(base_cls, "Meta", None)
+                if meta:
+                    break
+        namespace["Meta"] = _update_or_create_meta(meta=meta)
+        meta = namespace["Meta"]
+
+        field_name_dict = {}
         verbose_name_dict = {}
+
         const_field_types = tuple(_ConstField.registered_field_types)
         for k, v in namespace.items():
             # just check base const field by _ConstFieldHelper.get_const_filed_class(xxx)
             if getattr(v, '__class__', None) and isinstance(v, const_field_types):
+                if not meta.allow_duplicated_value and verbose_name_dict.get(v):
+                    raise AttributeError(
+                        "field: {0} value {1} is duplicated with {2}".format(
+                            k, v, field_name_dict.get(v)
+                        )
+                    )
+
+                field_name_dict[v] = k
                 verbose_name_dict[v] = getattr(v, 'verbose_name', "")
-        namespace["_verbose_name_dict"] = verbose_name_dict
+
+        namespace["_field_name_dict"] = field_name_dict
+        namespace["VERBOSE_NAME_DICT"] = namespace["_verbose_name_dict"] = verbose_name_dict
+
         return type.__new__(cls, name, bases, namespace)
 
     def __setattr__(self, key, value):
@@ -180,7 +225,7 @@ class ConstMetaClass(type):
 
 class BaseConst(with_metaclass(ConstMetaClass)):
     """ Abstract Class """
-    _verbose_name_dict = NotImplemented
+    VERBOSE_NAME_DICT = _verbose_name_dict = NotImplemented
 
     @classmethod
     def get_verbose_name(cls, const_value, default=None):

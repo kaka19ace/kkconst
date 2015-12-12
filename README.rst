@@ -29,24 +29,37 @@ Example
     from kkconst import BaseConst, ConstIntField
 
     class BaseStatusCode(BaseConst):
-        pass
+        class Meta:
+            allow_duplicated_value = False  # status_code should be no duplicated value
+
+        @classmethod
+        def get_message(cls, status_code, default=None):
+            return cls.get_verbose_name(status_code, default=default)
+
+
+    class StatusCodeField(ConstIntField):
+        def __init__(self, status_code, message=u"", description=u""):
+            ConstIntField.__init__(status_code, verbose_name=message, description=description)
+            self.message = message
+
 
     class ServiceStatusCode(BaseStatusCode):
-        SERVICE_UNAVAILABLE = ConstIntField(10001, u"service unavailable", description=u"server is sleeping")
+        SERVICE_UNAVAILABLE = StatusCodeField(10001, u"service unavailable", description=u"server is sleeping/服务打盹了")
 
-    error_code = ServiceStatusCode.SERVICE_UNAVAILABLE
-    assert isinstance(error_code, ConstIntField)
-    assert isinstance(error_code, int)
 
-    print(error_code.verbose_name) # "service unavailable"
-    print(error_code.description)  # "server is sleeping"
-    print(ServiceStatusCode.get_verbose_name(error_code))  # "service unavailable"
+    status_code = ServiceStatusCode.SERVICE_UNAVAILABLE
+    assert isinstance(status_code, ConstIntField)
+    assert isinstance(status_code, int)
+
+    print(status_code.verbose_name) # "service unavailable"
+    print(status_code.description)  # "server is sleeping"
+    print(ServiceStatusCode.get_verbose_name(status_code))  # "service unavailable"
 
     # for restful response
     response_data = OrderedDict()
-    response_data["status_code"] = error_code
-    response_data["message"] = error_code.verbose_name
-    response_data["description"] = error_code.description
+    response_data["status_code"] = status_code
+    response_data["message"] = status_code.verbose_name  # also status_code.message is the same value
+    response_data["description"] = status_code.description
     response_data["extra_message"] = "may you live in an interesting time"
     print(json.dumps(response_data, indent=2))
     # {

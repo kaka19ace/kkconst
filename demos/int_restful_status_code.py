@@ -46,6 +46,9 @@ PY2 = sys.version_info[0] == 2
 
 
 class BaseStatusCode(BaseConst):
+    class Meta:
+        allow_duplicated_value = False  # status_code should be no duplicated value
+
     @classmethod
     def get_message(cls, status_code, default=None):
         return cls.get_verbose_name(status_code, default=default)
@@ -64,31 +67,31 @@ class ServiceStatusCode(BaseStatusCode):
 if __name__ == "__main__":
     logger = get_console_logger()
 
-    error_code = ServiceStatusCode.SERVICE_UNAVAILABLE
-    assert isinstance(error_code, ConstIntField)
-    # assert isinstance(error_code, ConstLongField)  # assert error
-    assert isinstance(error_code, int)
+    status_code = ServiceStatusCode.SERVICE_UNAVAILABLE
+    assert isinstance(status_code, ConstIntField)
+    # assert isinstance(status_code, ConstLongField)  # assert error
+    assert isinstance(status_code, int)
     if PY2:
-        # assert isinstance(error_code, long)  # assert error, does not support long
+        # assert isinstance(status_code, long)  # assert error, does not support long
         pass
 
-    logger.info(error_code.TYPE)
+    logger.info(status_code.TYPE)
 
-    logger.info(error_code.verbose_name)
-    logger.info(error_code.message)
-    logger.info(error_code.description)
+    logger.info(status_code.verbose_name)
+    logger.info(status_code.message)
+    logger.info(status_code.description)
 
-    logger.info(ServiceStatusCode.get_message(error_code))
+    logger.info(ServiceStatusCode.get_message(status_code))
 
-    logger.info(type(error_code))
-    logger.info(type(error_code.TYPE(error_code)))
+    logger.info(type(status_code))
+    logger.info(type(status_code.TYPE(status_code)))
 
-    logger.info(ServiceStatusCode.get_verbose_name(error_code))
-    logger.info(ServiceStatusCode.get_verbose_name(error_code.TYPE(error_code)))
+    logger.info(ServiceStatusCode.get_verbose_name(status_code))
+    logger.info(ServiceStatusCode.get_verbose_name(status_code.TYPE(status_code)))
 
     response_data = OrderedDict()
-    response_data["status_code"] = error_code
-    response_data["message"] = error_code.message
-    response_data["description"] = error_code.description
+    response_data["status_code"] = status_code
+    response_data["message"] = status_code.message
+    response_data["description"] = status_code.description
     response_data["extra_message"] = "may you live in an interesting time"
     logger.info(json.dumps(response_data, indent=2))
