@@ -46,9 +46,3 @@ if __name__ == "__main__":
     logger.info(type(message.TYPE(message)))
 
     logger.info(message.verbose_name)
-    logger.info(SystemMessage.get_verbose_name(message))
-    logger.info(SystemMessage.get_verbose_name(message.TYPE(message)))
-    logger.info(SystemMessage.get_verbose_name(u"service unavailable"))
-    logger.info(SystemMessage.get_verbose_name(u"服务异常"))  # should be None
-    # if PY2 and const value has non english language, you should check unicode and str
-    # eg: logger.info(SystemMessage.get_verbose_name(u"服务异常"))

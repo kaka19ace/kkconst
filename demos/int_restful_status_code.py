@@ -47,11 +47,7 @@ PY2 = sys.version_info[0] == 2
 
 class BaseStatusCode(BaseConst):
     class Meta:
-        allow_duplicated_value = False  # status_code should be no duplicated value
-
-    @classmethod
-    def get_message(cls, status_code, default=None):
-        return cls.get_verbose_name(status_code, default=default)
+        allow_duplicated_value = True  # status_code should be no duplicated value
 
 
 class StatusCodeField(ConstIntField):
@@ -81,13 +77,8 @@ if __name__ == "__main__":
     logger.info(status_code.message)
     logger.info(status_code.description)
 
-    logger.info(ServiceStatusCode.get_message(status_code))
-
     logger.info(type(status_code))
     logger.info(type(status_code.TYPE(status_code)))
-
-    logger.info(ServiceStatusCode.get_verbose_name(status_code))
-    logger.info(ServiceStatusCode.get_verbose_name(status_code.TYPE(status_code)))
 
     response_data = OrderedDict()
     response_data["status_code"] = status_code

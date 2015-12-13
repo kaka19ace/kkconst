@@ -32,12 +32,7 @@ if __name__ == "__main__":
         logger.info(field_value.TYPE)
         logger.info(type(field_value))
         logger.info(type(field_value.TYPE(**field_value.to_dict())))
-
         logger.info(field_value.verbose_name)
-        logger.info(ReleasedDatetime.get_verbose_name(field_value))
-        logger.info(ReleasedDatetime.get_verbose_name(field_value.TYPE(**field_value.to_dict())))
-
-        logger.info(ReleasedDatetime.get_verbose_name(raw_field_value))  # if raw_field_value is str, output None
 
     released_datetime = ReleasedDatetime.PYTHON_2_0
     check(released_datetime, "2000-10-16")  # raw_field_value could not get verbose_name, only support datetime.datetime

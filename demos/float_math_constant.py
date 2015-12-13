@@ -33,11 +33,5 @@ if __name__ == "__main__":
     logger.info(magic_num.TYPE)
     logger.info(type(magic_num))
     logger.info(type(magic_num.TYPE(magic_num)))
-
     logger.info(magic_num.verbose_name)
-    logger.info(MathConst.get_verbose_name(magic_num))
-    logger.info(MathConst.get_verbose_name(magic_num.TYPE(magic_num)))
-    logger.info(MathConst.get_verbose_name(0.6180339887))  # Golden Ratio
-    logger.info(MathConst.get_verbose_name(0.618033988))  # None
-    logger.info(MathConst.get_verbose_name(0.618))  # None
 

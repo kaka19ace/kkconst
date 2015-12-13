@@ -187,7 +187,7 @@ def _update_or_create_meta(meta=None):
 
 
 class ConstMetaClass(type):
-    def __new__(cls, name, bases, namespace):
+    def __new__(mcs, name, bases, namespace):
         meta = namespace.get("Meta")
         if not meta:
             for base_cls in bases:
@@ -197,27 +197,29 @@ class ConstMetaClass(type):
         namespace["Meta"] = _update_or_create_meta(meta=meta)
         meta = namespace["Meta"]
 
-        field_name_dict = {}
-        verbose_name_dict = {}
+        field_dict = {}
+        value_fields_dict = {}
 
         const_field_types = tuple(_ConstField.registered_field_types)
         for k, v in namespace.items():
             # just check base const field by _ConstFieldHelper.get_const_filed_class(xxx)
             if getattr(v, '__class__', None) and isinstance(v, const_field_types):
-                if not meta.allow_duplicated_value and verbose_name_dict.get(v):
+                _fields = value_fields_dict.get(v)
+                if not meta.allow_duplicated_value and _fields:
                     raise AttributeError(
                         "field: {0} value {1} is duplicated with {2}".format(
-                            k, v, field_name_dict.get(v)
+                            k, v, _fields
                         )
                     )
+                field_dict[k] = v
+                if not _fields:
+                    value_fields_dict[v] = _fields = []
+                _fields.append(k)
 
-                field_name_dict[v] = k
-                verbose_name_dict[v] = getattr(v, 'verbose_name', "")
+        namespace["_field_dict"] = field_dict
+        namespace["_value_fields_dict"] = value_fields_dict
 
-        namespace["_field_name_dict"] = field_name_dict
-        namespace["VERBOSE_NAME_DICT"] = namespace["_verbose_name_dict"] = verbose_name_dict
-
-        return type.__new__(cls, name, bases, namespace)
+        return type.__new__(mcs, name, bases, namespace)
 
     def __setattr__(self, key, value):
         raise AttributeError("Could not set ConstField {key} {value} again".format(key=key, value=value))
@@ -225,8 +227,5 @@ class ConstMetaClass(type):
 
 class BaseConst(with_metaclass(ConstMetaClass)):
     """ Abstract Class """
-    VERBOSE_NAME_DICT = _verbose_name_dict = NotImplemented
-
-    @classmethod
-    def get_verbose_name(cls, const_value, default=None):
-        return cls._verbose_name_dict.get(const_value, default)
+    _field_dict = NotImplemented
+    _value_fields_dict = NotImplemented

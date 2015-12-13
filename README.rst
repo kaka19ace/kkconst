@@ -32,10 +32,6 @@ Example
         class Meta:
             allow_duplicated_value = False  # status_code should be no duplicated value
 
-        @classmethod
-        def get_message(cls, status_code, default=None):
-            return cls.get_verbose_name(status_code, default=default)
-
 
     class StatusCodeField(ConstIntField):
         def __init__(self, status_code, message=u"", description=u""):
@@ -53,7 +49,6 @@ Example
 
     print(status_code.verbose_name) # "service unavailable"
     print(status_code.description)  # "server is sleeping"
-    print(ServiceStatusCode.get_verbose_name(status_code))  # "service unavailable"
 
     # for restful response
     response_data = OrderedDict()
@@ -95,11 +90,6 @@ Example
 
     print(magic_num)  # 0.6180339887
     print(magic_num.verbose_name)  # Golden Ratio
-    print(MathConst.get_verbose_name(magic_num))  # Golden Ratio
-    print(MathConst.get_verbose_name(magic_num.TYPE(magic_num)))  # Golden Ratio
-    print(MathConst.get_verbose_name(0.6180339887))  # Golden Ratio
-    print(MathConst.get_verbose_name(0.618033988))  # None
-    print(MathConst.get_verbose_name(0.618))  # None
 
 **str: system message**
 
@@ -125,15 +115,6 @@ Example
 
     print(field_value)
     print(field_value.verbose_name)  # "PY2 Released"
-    print(ReleasedDatetime.get_verbose_name(field_value))  # "PY2 Released"
-
-    print(ReleasedDatetime.get_verbose_name(field_value.TYPE(**field_value.to_dict())))
-    # param type is datetime
-    # output: PY2 Released
-
-    print(ReleasedDatetime.get_verbose_name(datetime.datetime(year=2000, month=10, day=16)))
-    # if raw_field_value is str, output None
-    # output: PY2 Released
 
 
 Get It Now
