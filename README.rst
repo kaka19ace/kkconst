@@ -17,8 +17,8 @@ int, str, bytes, datetime
 In PY2: with unicode
 
 
-New Features 1.1.0
-==================
+New Features
+============
 **1.1.2**
 1. fixed demos code
 
