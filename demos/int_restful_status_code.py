@@ -47,7 +47,7 @@ PY2 = sys.version_info[0] == 2
 
 class BaseStatusCode(BaseConst):
     class Meta:
-        allow_duplicated_value = True  # status_code should be no duplicated value
+        allow_duplicated_value = False  # status_code should be no duplicated value
 
 
 class StatusCodeField(ConstIntField):
