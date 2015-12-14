@@ -134,15 +134,18 @@ Description: ***********************
         **BaseConst: Your Const Helper**
             like peewee model' Meta, we can use Meta to help manage the const variable
         
+        .. code-block:: python
+        
             the Meta support such attributes:
+        
             allow_duplicated_value - bool
                 default True,
                 when set False, if exists a variable has the same as the another variable defined before,
-                raise AttributeError
+                then raise AttributeError
         
             strict_capital - bool
                 default True, the ConstClass will check the const variable name,
-                if name is not upper, raise AttributeError
+                if name is not upper, then raise AttributeError
         
         .. code-block:: python
         
