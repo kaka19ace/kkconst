@@ -131,12 +131,13 @@ Example
     the Meta support such attributes:
 
     allow_duplicated_value - bool
-        default True, when set False, if exists a variable has the same as the another variable defined before,
-        raise AttributeError
+        default True,
+        when set False, if exists a variable has the same as the another variable defined before,
+        then raise AttributeError
 
     strict_capital - bool
         default True, the ConstClass will check the const variable name,
-        if name is not upper, raise AttributeError
+        if name is not upper, then raise AttributeError
 
 .. code-block:: python
 
