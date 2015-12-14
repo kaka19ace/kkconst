@@ -16,6 +16,12 @@ int, str, bytes, datetime
 
 In PY2: with unicode
 
+
+New Features 1.1.0
+============
+1. Meta support 'strict_capital' attribute to require const class's const variable capital naming.
+
+
 Example
 =======
 
@@ -115,6 +121,35 @@ Example
 
     print(field_value)
     print(field_value.verbose_name)  # "PY2 Released"
+
+
+**BaseConst: Your Const Helper**
+    like peewee model' Meta, we can use Meta to help manage the const variable
+
+    the Meta support such attributes:
+    allow_duplicated_value - bool
+        default True,
+        when set False, if exists a variable has the same as the another variable defined before,
+        raise AttributeError
+
+    strict_capital - bool
+        default True, the ConstClass will check the const variable name,
+        if name is not upper, raise AttributeError
+
+.. code-block:: python
+
+    class ErrorCode(BaseConst):
+        class Meta:
+            allow_duplicated_value = False
+            strict_capital = True
+
+        USER_ID_NOT_EXISTS = ConstIntField(20001, verbose_name="USER_ID_ERROR")
+
+        # will raise Error, because has the same with USER_ID_NOT_EXISTS
+        # USER_EMAIL_INVALID = ConstIntField(20001, verbose_name="USER_EMAIL_ERROR")
+
+        # will raise Error, because some letters are lowercase
+        # User_Password_Invalid = ConstIntField(20003, verbose_name="USER_PASSWORD_ERROR")
 
 
 Get It Now

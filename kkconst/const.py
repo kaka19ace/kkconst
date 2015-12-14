@@ -170,7 +170,8 @@ def _update_or_create_meta(meta=None):
         meta = Meta
 
     _meta_attr_config = [  # attr_name, expected_type, default_value
-        ('allow_duplicated_value', bool, True),
+        ('allow_duplicated_value', bool, True),  # allow same const value with different const variable
+        ('strict_capital', bool, True),  #  const variable require the letters are capital
     ]
 
     for attr_name, expected_type, default_value in _meta_attr_config:
@@ -211,6 +212,10 @@ class ConstMetaClass(type):
                             k, v, _fields
                         )
                     )
+
+                if meta.strict_capital and not k.isupper():
+                    raise AttributeError("const variable {0} require all letters capital".format(k))
+
                 field_dict[k] = v
                 if not _fields:
                     value_fields_dict[v] = _fields = []
