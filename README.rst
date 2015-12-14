@@ -127,7 +127,6 @@ Example
     like peewee model' Meta, we can use Meta to help manage the const variable
 
     the Meta support such attributes:
-
     allow_duplicated_value - bool
         default True,
         when set False, if exists a variable has the same as the another variable defined before,
