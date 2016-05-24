@@ -19,9 +19,10 @@ In PY2: with unicode
 
 New Features
 ============
+**1.1.3**
+    1. bugfix
 **1.1.2**
     1. fixed demos code
-
 **1.1.0**
     1. Meta support 'strict_capital' attribute to require const class's const variable capital naming.
 
