@@ -23,9 +23,9 @@ except:
 PY2 = sys.version_info[0] == 2
 STRING_TYPES = str if not PY2 else basestring
 _DATETIME_FORMATS = [
-        '%Y-%m-%d %H:%M:%S.%f',
-        '%Y-%m-%d %H:%M:%S',
-        '%Y-%m-%d',
+    '%Y-%m-%d %H:%M:%S.%f',
+    '%Y-%m-%d %H:%M:%S',
+    '%Y-%m-%d',
 ]
 
 
@@ -38,11 +38,10 @@ def _format_datetime(value):
             pass
         if datetime_value:
             break
-
     if datetime_value:
         return datetime_value
-    else:
-        raise ValueError("Could not format datetime value={0} formats={1}".format(value, DATETIME_FORMATS))
+
+    raise ValueError("Could not format datetime value={0} formats={1}".format(value, _DATETIME_FORMATS))
 
 
 def _get_real_value(base_type, value):
